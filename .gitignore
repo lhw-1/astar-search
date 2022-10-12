@@ -1,0 +1,5 @@
+# Ignore all images used as input / produced as output
+*.png
+
+# Ignore Python Cache
+/__pycache__
