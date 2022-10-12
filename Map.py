@@ -5,16 +5,28 @@ from Node import Node
 from utils import convert_to_pixel
 
 # Threshold for how close a point can be to an obstacle at any given time
-OBS_THRESHOLD = 10
+OBS_THRESHOLD = 20
+
+# The value for the padding around the image
+# Note: padding should be sufficiently large so that checking for validity will succeed for non-visible areas
+# According to assumption that area outside bounds are assumed to be traversable by default
+PADDING = 50
 
 class Map:
-    def __init__(self, image):
-        self.map = self.convert_bw(image)
+    def __init__(self, image, out = "output.png", is_np = False):
+
+        self.height, self.width, self.channel = image.shape
+        self.padding = PADDING
+        self.out = out
+
+        if is_np:
+            self.map = image            
+        else:
+            self.map = self.convert_bw(image)
+            self.add_padding(self.padding)
 
     # Converts any image to monochrome
     def convert_bw(self, image):
-        self.height, self.width, self.channel = image.shape
-
         new_image = np.zeros((self.height, self.width, self.channel))
         for i in range(self.height):
             for j in range(self.width):
@@ -25,11 +37,10 @@ class Map:
     
     # Add padding to the current map
     def add_padding(self, padding):
-        self.padding = padding
         prev_height = self.height
         prev_width = self.width
-        self.height = self.height + padding
-        self.width = self.width + padding
+        self.height = self.height + (2 * padding)
+        self.width = self.width + (2 * padding)
 
         new_map = np.zeros((self.height, self.width, self.channel))
         for i in range(self.height):
@@ -37,7 +48,7 @@ class Map:
                 if i < padding or i > padding + prev_height or j < padding or j > padding + prev_width:
                     new_map[i][j] = [255, 255, 255]
                 else:
-                    new_map[i][j] = self.map[i - padding][j - padding]
+                    new_map[i][j] = self.map[i - 1 - padding][j - 1 - padding]
         
         self.map = new_map
 
@@ -49,7 +60,8 @@ class Map:
             for j in range(OBS_THRESHOLD * 2 + 1):
                 
                 # If there is an obstacle pixel, return False
-                if self.map[i + node_pixel[1] - OBS_THRESHOLD][j + node_pixel[0] - OBS_THRESHOLD][0] == 0:
+                # If you have reached the ends of the map, also return False
+                if i + node_pixel[1] - OBS_THRESHOLD >= self.width or j + node_pixel[0] - OBS_THRESHOLD >= self.height or self.map[j + node_pixel[0] - OBS_THRESHOLD][i + node_pixel[1] - OBS_THRESHOLD][0] == 0:
                     return False
         
         # Else return True

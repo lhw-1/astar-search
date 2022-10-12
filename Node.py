@@ -7,22 +7,13 @@ class Node:
         self.y = y
         self.g = 0
         self.f = 0
-        self.parent = False
-
-    def set_g(self, g):
-        self.g = g
-
-    def set_f(self, f):
-        self.f = f 
-
-    def set_parent(self, parent):
-        self.parent = parent
+        self.parent = None
 
     # Returns the resulting node from moving by a given translation
     # The new node's parent is set to this node
     def translate(self, translations):
         new_node = Node(self.x + translations[0], self.y + translations[1])
-        new_node.set_parent(self)
+        new_node.parent = self
         return new_node
 
     # Calculates the euclidean distance between two given points

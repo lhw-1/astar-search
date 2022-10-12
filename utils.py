@@ -36,7 +36,7 @@ def convert_to_pixel(node, height, width, padding):
 
 # General euclidean distance between two points
 def euclidean_distance(point_1, point_2):
-    return math.sqrt((point_1[0] + point_2[0])**2 + (point_1[1] + point_2[1])**2)
+    return math.sqrt((point_1[0] - point_2[0])**2 + (point_1[1] - point_2[1])**2)
 
 
 

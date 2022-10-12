@@ -1,5 +1,8 @@
 # Ignore all images used as input / produced as output
+# Also ignore any .txt and .npy files created during runtime
 *.png
+*.txt
+*.npy
 
 # Ignore Python Cache
 /__pycache__
