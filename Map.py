@@ -13,17 +13,23 @@ OBS_THRESHOLD = 20
 PADDING = 50
 
 class Map:
-    def __init__(self, image, out = "output.png", is_np = False):
+    def __init__(self, image, out = "output.png", dim = (400, 300), is_np = False):
 
         self.height, self.width, self.channel = image.shape
         self.padding = PADDING
         self.out = out
 
         if is_np:
-            self.map = image            
+            image_resize = self.resize(image, dim)
+            self.map = image_resize            
         else:
-            self.map = self.convert_bw(image)
+            image_resize = self.resize(image)
+            self.map = self.convert_bw(image_resize)
             self.add_padding(self.padding)
+    
+    # Resize image
+    def resize(self, image, dim = (400, 300)):
+        return cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
 
     # Converts any image to monochrome
     def convert_bw(self, image):

@@ -30,11 +30,11 @@ def main(argv):
     PATH = './out.npy'
     if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
         im = np.load(PATH)
-        map = Map(im, True)
+        map = Map(im, is_np = True)
         astar(map, (0, 600))
     else:
         im = cv2.imread(inputfile, cv2.IMREAD_COLOR)
-        map = Map(im, outputfile, False)
+        map = Map(im, out = outputfile, is_np = False)
         np.save(PATH, map.map)
 
 if __name__ == "__main__":
