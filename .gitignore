@@ -3,6 +3,7 @@
 *.png
 *.txt
 *.npy
+*.sh
 
 # Ignore Python Cache
 /__pycache__

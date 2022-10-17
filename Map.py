@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import random
 
 from Node import Node
 from utils import convert_to_pixel
@@ -28,6 +29,7 @@ class Map:
         else:
             self.map = self.convert_bw(image_resize)
             self.add_padding(self.padding)
+            cv2.imwrite("map.png", self.map)
     
     # Resize image
     def resize(self, image):
@@ -62,7 +64,6 @@ class Map:
 
     def valid(self, node):
         node_pixel = convert_to_pixel((node.x, node.y), self.height, self.width, self.padding)
-        print(node_pixel)
 
         # Check if the perimeter of OBS_THRESHOLD around the given node is valid
         for i in range(OBS_THRESHOLD * 2 + 1):
@@ -71,11 +72,12 @@ class Map:
                 # If there is an obstacle pixel, return False
                 # If you have reached the ends of the map, also return False
                 if i + node_pixel[1] - OBS_THRESHOLD >= self.width or j + node_pixel[0] - OBS_THRESHOLD >= self.height or self.map[j + node_pixel[0] - OBS_THRESHOLD][i + node_pixel[1] - OBS_THRESHOLD][0] == 0:
+                    print("MAP SHAPE", self.map.shape, "VALID CHECK", node_pixel)
                     return False
         
         # Else return True
         return True
-    
+        
     def set_valid(self, node):
         node_pixel = convert_to_pixel((node.x, node.y), self.height, self.width, self.padding)
 

@@ -48,10 +48,10 @@ GOAL_THRESHOLD = 10
 # The bigger the number, the faster the search, but may be less detailed
 # If too big, it may fail due to obstacle collisions
 # In this case, try setting OBS_THRESHOLD in Map.py to a lower value
-STEP = 20
+STEP = 5
 
 # Starting node
-START = (0, 0)
+START = (0, 30)
 
 def astar(map, goal, start = START):
 
@@ -72,14 +72,14 @@ def astar(map, goal, start = START):
 
     # Set possible translations for successor generation
     translations = [
-        (STEP,0), # East
-        (STEP,-STEP), # South-East
-        (0,-STEP), # South
-        (-STEP,-STEP), # South-West
-        (-STEP,0), # West
-        (-STEP,STEP), # North-West
         (0,STEP), # North
-        (STEP,STEP) # North-East
+        (STEP,0), # East
+        (-STEP,0), # West
+        (0,-STEP), # South
+        (STEP,STEP), # North-East
+        (-STEP,STEP), # North-West
+        (STEP,-STEP), # South-East
+        (-STEP,-STEP) # South-West
     ]
 
     # Convert Open List into a Heap
