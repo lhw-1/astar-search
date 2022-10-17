@@ -17,7 +17,7 @@ This will create an output.png that will contain the path generated.
 
 ### Tweakable Parameters 
 
-As this code was meant to be used for a [specific project](https://github.com/lhw-1/rgbd-pathfinder-ros), the parameters have been pre-set according to our project specifications. Regardless, by tweaking some of the parameters, the algorithm can be generalized without issues.
+As this code was meant to be used for a [specific project](https://github.com/lhw-1/rgbd-pathfinder-ros), the algorithm process and the parameters have been pre-set according to our project specifications. The image is converted to a grid map with a Cartesian co-ordinate system, whose origin is considered to be at the center-bottom of the image prior to adding the padding, i.e. for a given image, the origin is located at ((width - 1) / 2, height - padding - 0.5). Regardless, by tweaking some of the parameters (including the starting point of the algorithm), the algorithm can be generalized without issues.
 
 First, in `Map.py`, there are three parameters: `OBS_THRESHOLD`, `PADDING`, and `DIM_RESIZE`. 
 
