@@ -5,31 +5,33 @@ from Node import Node
 from utils import convert_to_pixel
 
 # Threshold for how close a point can be to an obstacle at any given time
-OBS_THRESHOLD = 20
+OBS_THRESHOLD = 5
 
 # The value for the padding around the image
 # Note: padding should be sufficiently large so that checking for validity will succeed for non-visible areas
 # According to assumption that area outside bounds are assumed to be traversable by default
 PADDING = 50
 
-class Map:
-    def __init__(self, image, out = "output.png", dim = (400, 300), is_np = False):
+# Dimensions for Resizing
+DIM_RESIZE = (400, 400)
 
-        self.height, self.width, self.channel = image.shape
+class Map:
+    def __init__(self, image, out = "output.png", is_np = False):
+
+        image_resize = self.resize(image)
+        self.height, self.width, self.channel = image_resize.shape
         self.padding = PADDING
         self.out = out
 
         if is_np:
-            image_resize = self.resize(image, dim)
-            self.map = image_resize            
+            self.map = image_resize
         else:
-            image_resize = self.resize(image)
             self.map = self.convert_bw(image_resize)
             self.add_padding(self.padding)
     
     # Resize image
-    def resize(self, image, dim = (400, 300)):
-        return cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
+    def resize(self, image):
+        return cv2.resize(image, DIM_RESIZE, interpolation = cv2.INTER_AREA)
 
     # Converts any image to monochrome
     def convert_bw(self, image):
@@ -60,6 +62,7 @@ class Map:
 
     def valid(self, node):
         node_pixel = convert_to_pixel((node.x, node.y), self.height, self.width, self.padding)
+        print(node_pixel)
 
         # Check if the perimeter of OBS_THRESHOLD around the given node is valid
         for i in range(OBS_THRESHOLD * 2 + 1):

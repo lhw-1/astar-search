@@ -50,7 +50,10 @@ GOAL_THRESHOLD = 10
 # In this case, try setting OBS_THRESHOLD in Map.py to a lower value
 STEP = 20
 
-def astar(map, goal, start = (0, 0)):
+# Starting node
+START = (0, 0)
+
+def astar(map, goal, start = START):
 
     # Initialise the Starting node
     start_node = Node(start[0], start[1])
